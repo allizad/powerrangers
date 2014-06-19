@@ -50,6 +50,21 @@ class Person
 end
 
 class PowerRanger < Person
+
+	def initialize(name, caffeine_level=200, strength=500, color="blue")
+		super(name, caffeine_level)
+		@strength = strength
+		@color = color
+	end
+
+	# def punch()
+		
+	# end
+
+	# def rest()
+		
+	# end
+
 end
 
 class EvilNinja < Person
