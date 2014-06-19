@@ -1,15 +1,11 @@
 class Person
 
 	attr_accessor :name
-	attr_reader :caffeine_level
+	attr_accessor :caffeine_level
 
 	def initialize(name, caffeine_level=200)
 		@name = name
 		@caffeine_level = caffeine_level
-	end
-
-	def caffeine_level
-		puts "#{@caffeine_level} mg."
 	end
 
 	def run(miles)
@@ -51,15 +47,26 @@ end
 
 class PowerRanger < Person
 
+	attr_accessor :strength
+	attr_accessor :color
+
 	def initialize(name, caffeine_level=200, strength=500, color="blue")
 		super(name, caffeine_level)
 		@strength = strength
 		@color = color
 	end
 
-	# def punch()
-		
-	# end
+	def punch(punch_strength, person_punched)
+		puts "#{self.name} has punched #{person_punched.name}."
+		#punch depletes energy by punch_strength
+		self.strength -= punch_strength
+		#punch depletes punchee's caffeine_level
+		person_punched.caffeine_level -= (punch_strength*95)
+		#person punched screams
+		person_punched.scream
+		#person punched runs away
+		person_punched.run(punch_strength*2)
+	end
 
 	# def rest()
 		
