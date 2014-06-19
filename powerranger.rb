@@ -2,10 +2,19 @@ class Person
 
 	attr_accessor :name
 	attr_accessor :caffeine_level
+	attr_accessor :all_the_persons
+
+	$all_the_persons = []
 
 	def initialize(name, caffeine_level=200)
 		@name = name
 		@caffeine_level = caffeine_level
+		$all_the_persons << self
+	end
+
+	def self.all_the_persons
+		names = $all_the_persons.map { |p| p.name }
+		puts names
 	end
 
 	def run(miles)
@@ -40,7 +49,7 @@ class Person
 	def drink_coffee(cups)
 		@caffeine_level += (cups * 95)
 		puts "#{self.name} has a caffeine level of #{@caffeine_level} mg."
-		puts "#{self.name} is incapacitated for caffeine overdose." if @caffeine_level > 400
+		puts "#{self.name} OD'ed on caffeine. Incapacitated." if @caffeine_level > 400
 	end
 
 end
@@ -88,4 +97,38 @@ class PowerRanger < Person
 end
 
 class EvilNinja < Person
+
+	attr_accessor :strength
+	attr_accessor :evilness
+
+	def initialize(name, caffeine_level=200, strength=500, evilness=400)
+		super(name, caffeine_level)
+		@strength = strength
+		@evilness = evilness
+	end
+
+	def punch(punch_strength, person_punched)
+		puts "Evil Ninja #{@name} has punched #{person_punched.name}."
+		#punch depletes energy by punch_strength
+		self.strength -= punch_strength
+		#punch depletes punchee's caffeine_level
+		person_punched.caffeine_level -= (punch_strength*95)
+		#person punched screams
+		person_punched.scream
+		#person punched runs away
+		person_punched.run(punch_strength*2)
+	end
+
+	def cause_mayhem(person_mayhemed)
+		random_number = rand(@evilness)
+		$all_the_persons.each do |p|
+			if p != person_mayhemed
+				if p.class == PowerRanger || p.class == EvilNinja
+					p.punch(random_number, person_mayhemed)
+				end
+			end
+
+		end
+	end
+
 end
