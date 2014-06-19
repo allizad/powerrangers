@@ -68,9 +68,22 @@ class PowerRanger < Person
 		person_punched.run(punch_strength*2)
 	end
 
-	# def rest()
-		
-	# end
+	def rest(hours)
+		@strength += (hours*50)
+		puts "#{self.name} has rested #{hours} hours. Strength is now up to #{@strength}."
+	end
+
+	def use_megazord(person_megazorded)
+		puts "#{self.name} has Megazorded #{person_megazorded.name}."
+		#punch depletes energy by punch_strength
+		self.strength -= 5000
+		#punch depletes punchee's caffeine_level
+		person_megazorded.caffeine_level -= (5000*95)
+		#person punched screams
+		5.times {person_megazorded.scream}
+		#person punched runs away
+		person_megazorded.run(5000*2)
+	end
 
 end
 

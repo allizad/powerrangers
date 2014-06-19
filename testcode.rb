@@ -14,3 +14,7 @@ pink_one = PowerRanger.new("Alli", 400, 1000, "pink")
 pink_one.run(200)
 clark_kent.drink_coffee(500)
 pink_one.punch(40, clark_kent)
+pink_one.rest(15)
+pink_one.use_megazord(clark_kent)
+
+clark_kent.drink_coffee(4522)
