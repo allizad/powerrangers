@@ -1,16 +1,32 @@
+#included punch module so every class can fight
+module Punch
+	def punch(punch_strength=10, person_punched)
+		puts "#{self.name} has punched #{person_punched.name}."
+		#punch depletes energy by punch_strength
+		self.strength -= punch_strength
+		#punch depletes punchee's caffeine_level
+		person_punched.caffeine_level -= (punch_strength*95)
+		#person punched screams
+		person_punched.scream
+		#person punched runs away
+		person_punched.run(punch_strength*2)
+	end
+end
+
 class Person
 
-	attr_accessor :name
-	attr_accessor :caffeine_level
-	attr_accessor :all_the_persons
+	attr_accessor :name, :caffeine_level, :all_the_persons, :strength
 
 	$all_the_persons = []
 
-	def initialize(name, caffeine_level=200)
+	def initialize(name, strength=50, caffeine_level=200)
 		@name = name
 		@caffeine_level = caffeine_level
+		@strength = strength
 		$all_the_persons << self
 	end
+
+	include Punch
 
 	def self.all_the_persons
 		names = $all_the_persons.map { |p| p.name }
@@ -65,17 +81,7 @@ class PowerRanger < Person
 		@color = color
 	end
 
-	def punch(punch_strength, person_punched)
-		puts "#{self.name} has punched #{person_punched.name}."
-		#punch depletes energy by punch_strength
-		self.strength -= punch_strength
-		#punch depletes punchee's caffeine_level
-		person_punched.caffeine_level -= (punch_strength*95)
-		#person punched screams
-		person_punched.scream
-		#person punched runs away
-		person_punched.run(punch_strength*2)
-	end
+	include Punch
 
 	def rest(hours)
 		@strength += (hours*50)
@@ -107,25 +113,13 @@ class EvilNinja < Person
 		@evilness = evilness
 	end
 
-	def punch(punch_strength, person_punched)
-		puts "Evil Ninja #{@name} has punched #{person_punched.name}."
-		#punch depletes energy by punch_strength
-		self.strength -= punch_strength
-		#punch depletes punchee's caffeine_level
-		person_punched.caffeine_level -= (punch_strength*95)
-		#person punched screams
-		person_punched.scream
-		#person punched runs away
-		person_punched.run(punch_strength*2)
-	end
+	include Punch
 
 	def cause_mayhem(person_mayhemed)
 		random_number = rand(@evilness)
 		$all_the_persons.each do |p|
 			if p != person_mayhemed
-				if p.class == PowerRanger || p.class == EvilNinja
 					p.punch(random_number, person_mayhemed)
-				end
 			end
 
 		end
